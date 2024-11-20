@@ -7,14 +7,6 @@ import { IStakingRewards } from "./IStakingRewards.sol";
 interface IBerachainRewardsVault is IPOLErrors, IStakingRewards {
 
     /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
-    /*                           ENUMS                          */
-    /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
-    enum Operation {
-        MINT,
-        BURN
-    }
-
-    /*´:°•.°+.*•´.*:˚.°*.˚•´.°:°•.°•.*•´.*:˚.°*.˚•´.°:°•.°+.*•´.*:*/
     /*                           EVENTS                           */
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
@@ -165,11 +157,11 @@ interface IBerachainRewardsVault is IPOLErrors, IStakingRewards {
     /// @return The amount of the reward claimed.
     function getReward(address account) external returns (uint256);
 
-    /// @notice Notifies the Rewards Vault about the balances of the aTokens
-    /// @param account The account that has the aTokens.
-    /// @param amount The amount of aTokens.
-    /// @param op The operation that is being done.
-    function notifyATokenBalances(address account, uint256 amount, Operation op) external;
+    /// @notice Notifies the Berachain Rewards Vault of the ATokens balance change
+    /// @param account The account that has changed the balance.
+    /// @param amountBefore The amount of the ATokens before the change.
+    /// @param amountAfter The amount of the ATokens after the change.
+    function notifyATokenBalances(address account, uint256 amountBefore, uint256 amountAfter) external;
 
     /// @notice Allows msg.sender to set another address to claim and manage their rewards.
     /// @param _operator The address that will be allowed to claim and manage rewards.
