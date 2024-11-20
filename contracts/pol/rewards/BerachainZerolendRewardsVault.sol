@@ -227,10 +227,11 @@ contract BerachainZerolendRewardsVault is
     /*.•°:°.´+˚.*°.˚:*.´•*.+°.•°:´*.´•*.•°.•°:°.´:•˚°.*°.˚:*.´+°.•*/
 
     /// @inheritdoc IBerachainRewardsVault
-    function notifyATokenBalances(address account, uint256 amount, Operation op) external {
+    function notifyATokenBalances(address account, uint256 amountBefore, uint256 amountAfter) external{
         if (msg.sender != address(STAKE_TOKEN)) NotApprovedSender.selector.revertWith();
-
-        if (op == Operation.MINT) {
+        uint256 amount;
+        if (amountAfter > amountBefore) {
+            amount = amountAfter - amountBefore;
             _stake(account, amount);
 
             unchecked {
@@ -247,6 +248,7 @@ contract BerachainZerolendRewardsVault is
             emit DelegateStaked(account, msg.sender, amount);
 
         } else {
+            amount = amountBefore - amountAfter;
             unchecked {
                 DelegateStake storage info = _delegateStake[account];
                 uint256 stakedByDelegate = info.stakedByDelegate[msg.sender];
